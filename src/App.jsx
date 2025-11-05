@@ -1,15 +1,6 @@
-import { useEffect } from "react"
-import { getPost } from "./API/AuthAPI"
+import { Posts } from "./components/posts"
+
 
 export const App = () => {
-
-  const getPostData = async () => {
-    const res = await getPost();
-  }
-
-  useEffect(() => {
-    getPostData();
-  }, [])
-
-  return <h1>Hello React Crud Operation</h1>
+  <Posts/>
 }
