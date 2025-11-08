@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getPost } from "../API/AuthAPI";
+import { deletePost, getPost } from "../API/AuthAPI";
 import "../App.css";
 
 export const Posts = () => {
@@ -14,8 +14,17 @@ export const Posts = () => {
     useEffect(() => {
         getPostData();
     }, [])
+
+    const handleDeletePost = async (id) => {
+        try {
+            const res = await deletePost(id);
+        } catch (error) {
+            
+        }
+    }
+
     return (
-        <section className="sections-post">
+        <section className="section-post">
             <ol>
                 {
                     data.map((curElem) => {
@@ -25,7 +34,7 @@ export const Posts = () => {
                                 <p>Title: {title}</p>
                                 <p>Body: {body}</p>
                                 <button>Edit</button>
-                                <button className="btn-delete">Delete</button>
+                                <button className="btn-delete" onClick={() => handleDeletePost(id)}>Delete</button>
                             </li>
                         )
                     })

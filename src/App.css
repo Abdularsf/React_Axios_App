@@ -93,10 +93,6 @@ button:hover {
       background-color: #212f3c;
       padding: 1.6rem;
       border-radius: 0.3rem;
-      -webkit-border-radius: 0.3rem;
-      -moz-border-radius: 0.3rem;
-      -ms-border-radius: 0.3rem;
-      -o-border-radius: 0.3rem;
       list-style-position: inside;
       border-left: 0.2rem solid #fff;
     }
