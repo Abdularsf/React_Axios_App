@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { postData } from "../API/AuthAPI";
 
 export const Form = ({ data, setData, updateDataApi, setUpdateDataApi }) => {
@@ -6,6 +6,8 @@ export const Form = ({ data, setData, updateDataApi, setUpdateDataApi }) => {
         title: "",
         body: "",
     });
+
+    const isEmpty = Object.keys(updateDataApi).length === 0;
 
     useEffect(() => {
         updateDataApi &&
@@ -15,7 +17,6 @@ export const Form = ({ data, setData, updateDataApi, setUpdateDataApi }) => {
             });
     }, [updateDataApi]);
 
-    const isEmpty = Object.keys(updateDataApi).length == 0;
 
     const handleInputChange = (e) => {
         const name = e.target.name;
@@ -28,6 +29,7 @@ export const Form = ({ data, setData, updateDataApi, setUpdateDataApi }) => {
             }
         })
     }
+
 
     const addPostData = async () => {
         const res = await postData(addData);
