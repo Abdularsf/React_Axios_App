@@ -32,7 +32,7 @@ export const Posts = () => {
 
     return (
         <>
-            <section>
+            <section className="section-form">
                 <Form data={data} setData={setData}/>
             </section>
             <section className="section-post">

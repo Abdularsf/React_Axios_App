@@ -1,6 +1,39 @@
-export const Form = () => {
+import { useState } from "react"
+import { postData } from "../API/AuthAPI";
+
+export const Form = ({data,setData}) => {
+    const [addData, setAddData] = useState({
+        title: "",
+        body: "",
+    });
+
+    const handleInputChange = (e) =>{
+        const name = e.target.name;
+        const value = e.target.value;
+
+        setAddData((prev) =>{
+            return{
+                ...prev,
+                [name]:value,
+            }
+        })
+    }
+
+    const addPostData = async () =>{
+        const res = await postData(addData);
+        if(res.status === 201){
+            setData([...data,res.data]);
+            setAddData({title: "",body: "",})
+        }
+    }
+
+    const handleFormSubmit = (e) =>{
+        e.preventDefault();
+        addPostData();
+    }
+
     return (
-        <Form>
+        <form onSubmit={handleFormSubmit}>
             <div>
                 <label htmlFor="title"></label>
                 <input
@@ -9,6 +42,8 @@ export const Form = () => {
                     name="title"
                     placeholder="Add Tile"
                     autoComplete="off"
+                    value={addData.title}
+                    onChange={handleInputChange}
                 />
             </div>
             <div>
@@ -19,8 +54,11 @@ export const Form = () => {
                     id="body"
                     autoComplete="off"
                     placeholder="Add Text"
+                    value={addData.body}
+                    onChange={handleInputChange}
                 />
             </div>
-        </Form>
+            <button type="submit">Add</button>
+        </form>
     )
 }
