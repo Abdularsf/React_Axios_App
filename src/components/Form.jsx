@@ -1,35 +1,50 @@
 import { useState } from "react"
 import { postData } from "../API/AuthAPI";
 
-export const Form = ({data,setData}) => {
+export const Form = ({ data, setData, updateDataApi, setUpdateDataApi }) => {
     const [addData, setAddData] = useState({
         title: "",
         body: "",
     });
 
-    const handleInputChange = (e) =>{
+    useEffect(() => {
+        updateDataApi &&
+            setAddData({
+                title: updateDataApi.title || "",
+                body: updateDataApi.body || "",
+            });
+    }, [updateDataApi]);
+
+    const isEmpty = Object.keys(updateDataApi).length == 0;
+
+    const handleInputChange = (e) => {
         const name = e.target.name;
         const value = e.target.value;
 
-        setAddData((prev) =>{
-            return{
+        setAddData((prev) => {
+            return {
                 ...prev,
-                [name]:value,
+                [name]: value,
             }
         })
     }
 
-    const addPostData = async () =>{
+    const addPostData = async () => {
         const res = await postData(addData);
-        if(res.status === 201){
-            setData([...data,res.data]);
-            setAddData({title: "",body: "",})
+        if (res.status === 201) {
+            setData([...data, res.data]);
+            setAddData({ title: "", body: "", })
         }
     }
 
-    const handleFormSubmit = (e) =>{
+    const handleFormSubmit = (e) => {
         e.preventDefault();
-        addPostData();
+        const action = e.nativeEvent.submitter.value;
+        if (action === "Add") {
+            addPostData();
+        } else if (action === "Edit") {
+            updatePostData();
+        }
     }
 
     return (
@@ -58,7 +73,7 @@ export const Form = ({data,setData}) => {
                     onChange={handleInputChange}
                 />
             </div>
-            <button type="submit">Add</button>
+            <button type="submit" value={isEmpty ? "Add" : "Edit"}>{isEmpty ? "Add" : "Edit"}</button>
         </form>
     )
 }
